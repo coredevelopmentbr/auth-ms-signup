@@ -2,21 +2,21 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 import User from '../infra/database/schemas/User';
-import IUserDTO from '../dtos/UserDTO';
-import IUsersInterface from '../interfaces/UsersInterface';
-import IHashProvider from '../providers/HashProvider/interfaces/HashProvider';
+import UserDTO from '../dtos/UserDTO';
+import UsersInterface from '../interfaces/UsersInterface';
+import HashProvider from '../providers/HashProvider/interfaces/HashProvider';
 
 @injectable()
 class CreateUserService {
   constructor(
     @inject('UsersRepository')
-    private usersRepository: IUsersInterface,
+    private usersRepository: UsersInterface,
 
     @inject('HashProvider')
-    private hashProvider: IHashProvider
+    private hashProvider: HashProvider
   ) {}
 
-  public async execute(userData: IUserDTO): Promise<User> {
+  public async execute(userData: UserDTO): Promise<User> {
     const { name, email, cpf, username, password } = userData;
 
     const findUserByEmail = await this.usersRepository.findByEmail(email);
