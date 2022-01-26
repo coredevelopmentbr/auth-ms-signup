@@ -1,20 +1,24 @@
 import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '../interfaces/mocks/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
+import FakeSnsProvider from '../providers/SnsProvider/fakes/FakeSnsProvider';
 import CreateUserService from './CreateUserService';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
+let fakeSnsProvider: FakeSnsProvider;
 let createUserService: CreateUserService;
 
 describe('CreateUserService', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
+    fakeSnsProvider = new FakeSnsProvider();
 
     createUserService = new CreateUserService(
       fakeUsersRepository,
-      fakeHashProvider
+      fakeHashProvider,
+      fakeSnsProvider
     );
   });
 

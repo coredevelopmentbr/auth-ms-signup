@@ -3,18 +3,14 @@ import {
   PublishCommand,
   PublishBatchCommandOutput,
 } from '@aws-sdk/client-sns';
-import { fromCognitoIdentity } from '@aws-sdk/credential-providers';
+import { v4 } from 'uuid';
+import { fromIni } from '@aws-sdk/credential-provider-ini';
+
 import SnsProvider from '../interfaces/SnsProvider';
 
-const REGION = 'us-east-1';
-// const PROFILE = 'teste';
-
 const snsClient = new SNSClient({
-  region: REGION,
-  credentials: fromCognitoIdentity({
-    identityId: 'us-east-1:b3e7a493-09e9-44ef-9518-ff0af2077675',
-    clientConfig: REGION,
-  }),
+  region: 'us-east-1',
+  credentials: fromIni({ profile: 'luiz' }),
 });
 
 class AmazonSnsProvider implements SnsProvider {
@@ -26,6 +22,7 @@ class AmazonSnsProvider implements SnsProvider {
     const params = {
       Message: payload,
       TopicArn: awsArn,
+      MessageGroupId: v4(),
     };
 
     const data = await snsClient.send(new PublishCommand(params));
