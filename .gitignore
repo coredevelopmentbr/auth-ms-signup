@@ -26,5 +26,4 @@ dist/
 package-lock.json
 
 # database
-ormconfig.json
 init.sql

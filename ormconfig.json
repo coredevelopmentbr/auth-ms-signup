@@ -1,0 +1,17 @@
+[
+  {
+    "type": "mongodb",
+    "url": "mongodb+srv://admin:admin@cluster0.atsla.mongodb.net/anyplace?retryWrites=true&w=majority",
+    "port": "27017",
+    "username": "admin",
+    "password": "admin",
+    "database": "anyplace",
+    "useNewUrlParser": true,
+    "useUnifiedTopology": true,
+    "synchronize": true,
+    "logging": true,
+    "entities": [
+      "./src/modules/*/infra/database/schemas/.ts"
+    ]
+  }
+]

@@ -5,6 +5,7 @@ import User from '../infra/database/schemas/User';
 import UserDTO from '../dtos/UserDTO';
 import UsersInterface from '../interfaces/UsersInterface';
 import HashProvider from '../providers/HashProvider/interfaces/HashProvider';
+import SnsProvider from '../providers/SnsProvider/interfaces/SnsProvider';
 
 @injectable()
 class CreateUserService {
@@ -13,7 +14,10 @@ class CreateUserService {
     private usersRepository: UsersInterface,
 
     @inject('HashProvider')
-    private hashProvider: HashProvider
+    private hashProvider: HashProvider,
+
+    @inject('SnsProvider')
+    private AmazonSnsProvider: SnsProvider
   ) {}
 
   public async execute(userData: UserDTO): Promise<User> {
@@ -46,6 +50,16 @@ class CreateUserService {
       username,
       password: hashedPassword,
     };
+
+    const snsPayload = {
+      email,
+      username,
+      password: hashedPassword,
+    };
+
+    const parsedSnsPayload = JSON.stringify(snsPayload);
+
+    this.AmazonSnsProvider.sendMessage(parsedSnsPayload);
 
     const user = await this.usersRepository.create(createUserData);
 
